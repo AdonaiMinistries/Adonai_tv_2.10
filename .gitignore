@@ -1,0 +1,47 @@
+# Flutter specific
+.flutter-plugins-cache
+.flutter-plugins-pubspec.yaml
+.pub-cache/
+.pub/
+
+# Build output
+build/
+
+# IDE files
+.idea/
+
+# Flutter Driver files
+test_driver/
+
+# Dart metadata file
+.packages
+
+# Visual Studio Code
+.vscode/
+
+# Flutter Cache files
+.dart_tool/
+
+# .DS_Store
+.DS_Store
+
+# Generated files
+lib/generated/
+
+# Flutter generated lockfile
+flutter.lock
+
+# Keystore files
+*.jks
+
+# Operating system generated files
+.DS_Store
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Profile files
+*.pub-cache/
+
