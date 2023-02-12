@@ -33,9 +33,23 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     }
     if (event is FetchVimeoEvent) {
       // yield Loading();
+      String token = "";
+      String next = "";
+      if (state is VimeoVideoLoaded) {
+        token = (state as VimeoVideoLoaded).token;
+        next = event.url;
+      } else {
+        token = (state as AppConfigLoaded).appConfig.token;
+      }
+
       try {
-        VimeoVideoData videoData = await _fetchVimeoVideos(event.token);
-        yield VimeoVideoLoaded(videoData: videoData);
+        VimeoVideoData videoData = await _fetchVimeoVideos(token, next);
+        if (state is VimeoVideoLoaded) {
+          /* Append new videos from the existing videos. */
+          videoData.data
+              .insertAll(0, (state as VimeoVideoLoaded).videoData.data);
+        }
+        yield VimeoVideoLoaded(videoData: videoData, token: token);
       } catch (e) {
         yield FailedToLoad(errorMessage: e.toString());
       }
@@ -56,9 +70,13 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     }
   }
 
-  Future<VimeoVideoData> _fetchVimeoVideos(String token) async {
+  Future<VimeoVideoData> _fetchVimeoVideos(String token, String nextUri) async {
     const String baseUrl = 'https://api.vimeo.com';
-    const String userUri = '/users/140653357/projects/4496867/videos';
+    String userUri = '/users/140653357/projects/4496867/videos';
+
+    if (nextUri.isNotEmpty) {
+      userUri = nextUri;
+    }
 
     final response = await http.get(Uri.parse(baseUrl + userUri), headers: {
       "Authorization": "Bearer $token",

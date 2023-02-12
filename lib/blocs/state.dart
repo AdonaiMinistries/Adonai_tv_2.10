@@ -13,7 +13,8 @@ class AppConfigLoaded extends AppState {
 
 class VimeoVideoLoaded extends AppState {
   final VimeoVideoData videoData;
-  VimeoVideoLoaded({required this.videoData});
+  String token;
+  VimeoVideoLoaded({required this.videoData, required this.token});
 }
 
 class FailedToLoad extends AppState {
@@ -22,6 +23,6 @@ class FailedToLoad extends AppState {
 }
 
 class FetchMore extends AppState {
-  final List<String> data;
-  FetchMore({required this.data});
+  final VimeoVideoData videoData;
+  FetchMore({required this.videoData});
 }

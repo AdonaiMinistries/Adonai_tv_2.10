@@ -45,3 +45,14 @@ Thumbs.db
 # Profile files
 *.pub-cache/
 
+*.lock
+*.swift
+*.xcconfig
+.flutter-plugins-dependencies
+.flutter-plugins
+ios/Podfile
+ios/Flutter/Release.xcconfig
+ios/Flutter/Debug.xcconfig
+*.xcconfig
+*.lock
+macos/Podfile

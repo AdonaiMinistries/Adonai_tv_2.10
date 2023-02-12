@@ -11,16 +11,32 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String token = "";
     return BlocBuilder<AppBloc, AppState>(builder: ((context, state) {
       if (state is Loading) {
         BlocProvider.of<AppBloc>(context).add(FetchAppConfigEvent());
         return const Center(child: CircularProgressIndicator());
       } else if (state is AppConfigLoaded) {
-        BlocProvider.of<AppBloc>(context)
-            .add(FetchVimeoEvent(token: state.appConfig.token));
+        token = state.appConfig.token;
+        BlocProvider.of<AppBloc>(context).add(FetchVimeoEvent(url: ""));
         return const Text("Display list");
       } else if (state is VimeoVideoLoaded) {
-        return RenderMainContent(videos: state.videoData.data);
+        return RenderMainContent(videos: state.videoData.data, token: token);
+        // return ListView.builder(
+        //   itemCount: state.videoData.data.length,
+        //   itemBuilder: (BuildContext context, int index) {
+        //     if ((index == state.videoData.data.length - 1) &&
+        //         state.videoData.paging.next != null) {
+        //       /* Fetch more videos. */
+        //       BlocProvider.of<AppBloc>(context)
+        //           .add(FetchVimeoEvent(url: state.videoData.paging.next));
+        //     }
+        //     return Text(
+        //       'Title - ${state.videoData.data[index].name}',
+        //       style: const TextStyle(color: Colors.white),
+        //     );
+        //   },
+        // );
       } else if (state is FailedToLoad) {
         return Center(
           child: Container(
