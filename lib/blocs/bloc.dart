@@ -43,6 +43,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
       }
 
       try {
+        // await _fetchVimeoTags(token);
         VimeoVideoData videoData = await _fetchVimeoVideos(token, next);
         if (state is VimeoVideoLoaded) {
           /* Append new videos from the existing videos. */
@@ -87,6 +88,22 @@ class AppBloc extends Bloc<AppEvent, AppState> {
       final data = jsonDecode(response.body);
       final videos = VimeoVideoData.fromJson(data);
       return videos;
+    } else {
+      throw Exception('Failed to fetch vimeo videos');
+    }
+  }
+
+  Future _fetchVimeoTags(String token) async {
+    const String baseUrl = 'https://api.vimeo.com';
+    String userUri = '/tags';
+
+    final response = await http.get(Uri.parse(baseUrl + userUri), headers: {
+      "Authorization": "Bearer $token",
+      "Content-Type": "application/json"
+    });
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
     } else {
       throw Exception('Failed to fetch vimeo videos');
     }
