@@ -6,13 +6,14 @@ import 'package:flutter/services.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoPlayerScreen extends StatefulWidget {
-  const VideoPlayerScreen({super.key});
+  final String url;
+  final isLive;
+  const VideoPlayerScreen({super.key, required this.url, required this.isLive});
 
   @override
   State<VideoPlayerScreen> createState() => _VideoPlayerScreenState();
 }
 
-/* ATTEMPT - 3 */
 class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   late VideoPlayerController _controller;
   late Future<void> _initializeVideoPlayerFuture;
@@ -22,13 +23,10 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   double _progress = 0.0;
   bool _isDragging = false;
 
-  final String _sampleUrl =
-      "https://skyfire.vimeocdn.com/1680033663-0xf2fa61a7322cdeb15e0a54b36bcb1921286d83cd/09614d9a-1cf8-4300-9491-9e346c483ff2/sep/video/36426c1d,41c4eb7f,5e6c0306,6a4136f4,a0a4587f/audio/cb6ffe87/subtitles/70242394-English%20%28auto-generated%29-en-x-autogen-cc/master.m3u8?external-subs=1&query_string_ranges=1&subcache=1&subtoken=7eb347168bec085e352ee0bd9d4116ccf9f4f8be0fc5484bc283ec06d096e7c5";
-
   @override
   void initState() {
     super.initState();
-    _controller = VideoPlayerController.network(_sampleUrl);
+    _controller = VideoPlayerController.network(widget.url);
     _initializeVideoPlayerFuture = _controller.initialize();
 
     _playButtonFocusNode = FocusNode();
@@ -88,7 +86,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
           child: Stack(
             children: <Widget>[
               _renderVideoPlayer(),
-              if (_showControls) _renderControls()
+              if (!widget.isLive && _showControls) _renderControls()
             ],
           )),
     );
@@ -184,6 +182,11 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   }
 
   _onKeyEvent(RawKeyEvent event) {
+    if (widget.isLive) {
+      // During live key should not work.
+      return;
+    }
+
     if (event is RawKeyDownEvent) {
       if ((event.logicalKey == LogicalKeyboardKey.mediaPlayPause) ||
           (event.logicalKey == LogicalKeyboardKey.select)) {

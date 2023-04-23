@@ -41,6 +41,7 @@ dependencies:
   flexivideoplayer: ^0.1.0
 
   video_player: ^2.5.1
+  intl: ^0.18.0
 
 dev_dependencies:
   flutter_test:

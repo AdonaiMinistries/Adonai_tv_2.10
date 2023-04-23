@@ -107,3 +107,15 @@ class VimeoVideoData {
     );
   }
 }
+
+class VideoConfigData {
+  String uri;
+
+  VideoConfigData({required this.uri});
+
+  factory VideoConfigData.fromJson(Map<String, dynamic> json) {
+    return VideoConfigData(
+        uri: json['request']['files']['hls']['cdns']['akfire_interconnect_quic']
+            ['avc_url']);
+  }
+}

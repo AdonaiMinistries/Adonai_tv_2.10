@@ -1,6 +1,7 @@
 import 'package:adonai_tv/blocs/bloc.dart';
 import 'package:adonai_tv/blocs/event.dart';
 import 'package:adonai_tv/blocs/state.dart';
+import 'package:adonai_tv/models/app_config.dart';
 import 'package:adonai_tv/widgets/main_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -11,16 +12,17 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String token = "";
+    late AppConfig appConfig;
     return BlocBuilder<AppBloc, AppState>(builder: ((context, state) {
       if (state is Loading) {
         return const Center(child: CircularProgressIndicator());
       } else if (state is AppConfigLoaded) {
-        token = state.appConfig.token;
+        appConfig = state.appConfig;
         BlocProvider.of<AppBloc>(context).add(FetchVimeoEvent(url: ""));
         return const Text("Display list");
       } else if (state is VimeoVideoLoaded) {
-        return RenderMainContent(videos: state.videoData.data, token: token);
+        return RenderMainContent(
+            videos: state.videoData.data, appConfig: appConfig);
       } else if (state is FailedToLoad) {
         return Center(
           child: Container(

@@ -26,3 +26,8 @@ class FetchMore extends AppState {
   final VimeoVideoData videoData;
   FetchMore({required this.videoData});
 }
+
+class VideoConfig extends AppState {
+  final VideoConfigData videoConfig;
+  VideoConfig(this.videoConfig);
+}

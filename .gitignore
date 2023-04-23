@@ -64,3 +64,6 @@ macos/Flutter/Flutter-Release.xcconfig
 macos/Flutter/GeneratedPluginRegistrant.swift
 *.xcconfig
 *.swift
+*.xcconfig
+*.xcconfig
+ios/Flutter/Debug.xcconfig

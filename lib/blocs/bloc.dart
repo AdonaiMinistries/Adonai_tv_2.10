@@ -60,7 +60,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
   Future<AppConfig> _fetchAppConfig() async {
     const String baseUrl = 'www.adonaichurch.in';
 
-    Uri uri = Uri.https(baseUrl, '/app_config.json');
+    Uri uri = Uri.https(baseUrl, '/app-config.json');
     final response = await httpClient.get(uri);
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);

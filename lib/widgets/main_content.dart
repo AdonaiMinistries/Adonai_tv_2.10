@@ -1,6 +1,7 @@
 import 'package:adonai_tv/blocs/bloc.dart';
 import 'package:adonai_tv/blocs/event.dart';
 import 'package:adonai_tv/blocs/state.dart';
+import 'package:adonai_tv/models/app_config.dart';
 import 'package:adonai_tv/models/vime_video.dart';
 import 'package:adonai_tv/widgets/live_button.dart';
 import 'package:flutter/material.dart';
@@ -10,9 +11,9 @@ import 'video_grid.dart';
 
 class RenderMainContent extends StatefulWidget {
   final List<Data> videos;
-  final String token;
+  final AppConfig appConfig;
   const RenderMainContent(
-      {super.key, required this.videos, required this.token});
+      {super.key, required this.videos, required this.appConfig});
 
   @override
   State<RenderMainContent> createState() => _RenderMainContentState();
@@ -32,7 +33,7 @@ class _RenderMainContentState extends State<RenderMainContent> {
           children: <Widget>[
             _renderLogo(context),
             _renderSizedBox(context),
-            _renderLiveButton(),
+            _renderLiveButton(widget.appConfig),
             _renderSermonText(context),
             SizedBox(
                 height: MediaQuery.of(context).size.height,
@@ -45,6 +46,7 @@ class _RenderMainContentState extends State<RenderMainContent> {
                             .paging
                             .next));
                   },
+                  token: (bloc.state as VimeoVideoLoaded).token,
                 )),
           ],
         ),
@@ -55,7 +57,9 @@ class _RenderMainContentState extends State<RenderMainContent> {
   SizedBox _renderSizedBox(BuildContext context) =>
       SizedBox(height: MediaQuery.of(context).size.height * .18);
 
-  LiveButton _renderLiveButton() => const LiveButton();
+  LiveButton _renderLiveButton(appConfig) => LiveButton(
+        appConfig: appConfig,
+      );
 
   Widget _renderSermonText(BuildContext context) {
     return Padding(

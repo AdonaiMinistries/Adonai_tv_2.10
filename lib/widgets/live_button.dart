@@ -1,9 +1,11 @@
-import 'package:adonai_tv/screens/video_player_screen.dart';
+import 'package:adonai_tv/models/app_config.dart';
+import 'package:adonai_tv/screens/live_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class LiveButton extends StatefulWidget {
-  const LiveButton({super.key});
+  final AppConfig appConfig;
+  const LiveButton({super.key, required this.appConfig});
 
   @override
   _LiveButtonState createState() => _LiveButtonState();
@@ -44,7 +46,8 @@ class _LiveButtonState extends State<LiveButton> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => const VideoPlayerScreen()));
+                    builder: (context) =>
+                        LiveScreen(appConfig: widget.appConfig)));
           },
           style: TextButton.styleFrom(
               backgroundColor: _focused ? Colors.white : Colors.red,
@@ -58,37 +61,6 @@ class _LiveButtonState extends State<LiveButton> {
         ),
       ),
     );
-    // return GestureDetector(
-    //   onTap: () => {
-    //     Navigator.push(
-    //       context,
-    //       MaterialPageRoute(builder: (context) => const VideoPlayerScreen()),
-    //     )
-    //   },
-    //   child: Focus(
-    //     onFocusChange: (hasFocus) {
-    //       setState(() {
-    //         _focused = hasFocus;
-    //       });
-    //     },
-    //     child: Container(
-    //       width: MediaQuery.of(context).size.width * .10,
-    //       height: MediaQuery.of(context).size.width * .035,
-    //       decoration: BoxDecoration(
-    //         borderRadius: const BorderRadius.all(Radius.circular(8.0)),
-    //         color: _focused ? Colors.white : Colors.red,
-    //       ),
-    //       child: Center(
-    //         child: Text(
-    //           'Live',
-    //           style: TextStyle(
-    //             color: _focused ? Colors.red : Colors.white,
-    //           ),
-    //         ),
-    //       ),
-    //     ),
-    //   ),
-    // );
   }
 
   _handleKeyEvent(RawKeyEvent event) {
@@ -96,8 +68,10 @@ class _LiveButtonState extends State<LiveButton> {
         (event.physicalKey == PhysicalKeyboardKey.select) ||
         (event.logicalKey == LogicalKeyboardKey.select) ||
         (event.physicalKey == PhysicalKeyboardKey.mediaPlay)) {
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => const VideoPlayerScreen()));
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => LiveScreen(appConfig: widget.appConfig)));
     }
   }
 }
