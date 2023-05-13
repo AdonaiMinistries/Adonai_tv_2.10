@@ -2,6 +2,9 @@ import 'package:adonai_tv/models/app_config.dart';
 import 'package:adonai_tv/screens/live_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../blocs/bloc.dart';
 
 class LiveButton extends StatefulWidget {
   final AppConfig appConfig;
@@ -37,6 +40,7 @@ class _LiveButtonState extends State<LiveButton> {
 
   @override
   Widget build(BuildContext context) {
+    final bloc = BlocProvider.of<AppBloc>(context);
     return Center(
       child: RawKeyboardListener(
         onKey: _handleKeyEvent,

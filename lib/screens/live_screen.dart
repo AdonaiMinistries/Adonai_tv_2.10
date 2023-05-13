@@ -1,9 +1,11 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:adonai_tv/models/app_config.dart';
 import 'package:adonai_tv/screens/video_player_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:http/http.dart' as http;
 
 class LiveScreen extends StatefulWidget {
   final AppConfig appConfig;
@@ -19,15 +21,19 @@ class _LiveScreenState extends State<LiveScreen> {
   bool displayTimer = true;
   Timer? _timer;
   late int days, hours, minutes;
+  late AppConfig _appConfig;
+  bool _isLoading = true;
 
   @override
   void initState() {
     super.initState();
     try {
-      dtObj = DateFormat("MM/dd/yyyy hh:mm:ss a")
-          .parse(widget.appConfig.nextStream);
-      _timeDifference();
-      _startTimer();
+      _fetchAppConfig().then((_) {
+        dtObj =
+            DateFormat("MM/dd/yyyy hh:mm:ss a").parse(_appConfig.nextStream);
+        _timeDifference();
+        _startTimer();
+      });
     } catch (e) {
       print(e);
     }
@@ -43,7 +49,11 @@ class _LiveScreenState extends State<LiveScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      body: displayTimer ? _renderTimer(context) : Container(),
+      body: _isLoading
+          ? const CircularProgressIndicator(
+              color: Colors.red,
+            )
+          : (displayTimer ? _renderTimer(context) : Container()),
     );
   }
 
@@ -93,7 +103,7 @@ class _LiveScreenState extends State<LiveScreen> {
               context,
               MaterialPageRoute(
                   builder: (context) => VideoPlayerScreen(
-                        url: widget.appConfig.link,
+                        url: _appConfig.link,
                         isLive: true,
                       )));
         }
@@ -148,5 +158,24 @@ class _LiveScreenState extends State<LiveScreen> {
         ],
       ),
     );
+  }
+
+  Future<void> _fetchAppConfig() async {
+    const String url = 'https://www.adonaichurch.in/app-config.json';
+
+    final response = await http.get(Uri.parse(url), headers: {
+      "Authorization": "Bearer $widget.appConfig.token",
+      "Content-Type": "application/json"
+    });
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      _appConfig = AppConfig.fromJson(data);
+      setState(() {
+        _isLoading = false;
+      });
+    } else {
+      throw Exception('Failed to fetch vimeo videos');
+    }
   }
 }
