@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="adonaichurch.tv">
+    package="adonaichurch.adonai">
    <application
-        android:label="adonai_tv"
+        android:label="Adonai Church"
         android:banner="@drawable/banner"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
@@ -24,6 +24,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
             </intent-filter>
         </activity>
         <!-- Don't delete the meta-data below.

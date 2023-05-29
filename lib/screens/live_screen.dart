@@ -99,13 +99,13 @@ class _LiveScreenState extends State<LiveScreen> {
           _timer?.cancel();
           displayTimer = false;
 
-          Navigator.pushReplacement(
+          _fetchAppConfig().then((value) => Navigator.pushReplacement(
               context,
               MaterialPageRoute(
                   builder: (context) => VideoPlayerScreen(
                         url: _appConfig.link,
                         isLive: true,
-                      )));
+                      ))));
         }
       });
     });

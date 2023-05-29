@@ -1,4 +1,4 @@
-package adonaichurch.tv
+package adonaichurch.adonai
 
 import io.flutter.embedding.android.FlutterActivity
 
