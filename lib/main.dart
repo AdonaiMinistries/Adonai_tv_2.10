@@ -8,6 +8,7 @@ import 'blocs/event.dart';
 import 'package:http/http.dart' as http;
 
 import 'screens/home_screen.dart';
+import 'package:wakelock/wakelock.dart';
 
 void main() {
   runApp(const AdonaiTVApp());
@@ -18,6 +19,7 @@ class AdonaiTVApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Wakelock.enable();
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(fontFamily: 'Gotham'),

@@ -55,7 +55,7 @@ class _RenderMainContentState extends State<RenderMainContent> {
   }
 
   SizedBox _renderSizedBox(BuildContext context) =>
-      SizedBox(height: MediaQuery.of(context).size.height * .18);
+      SizedBox(height: MediaQuery.of(context).size.height * .25);
 
   LiveButton _renderLiveButton(appConfig) => LiveButton(
         appConfig: appConfig,
@@ -94,7 +94,7 @@ class _RenderMainContentState extends State<RenderMainContent> {
     return Container(
       alignment: Alignment.topLeft,
       child: Image.asset('assets/white-logo.png',
-          height: MediaQuery.of(context).size.height * .20),
+          height: MediaQuery.of(context).size.height * .10),
     );
   }
 }

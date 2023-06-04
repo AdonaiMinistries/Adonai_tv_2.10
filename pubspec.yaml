@@ -39,9 +39,9 @@ dependencies:
   cached_network_image: ^2.3.0
   chewie: ^1.4.0
   flexivideoplayer: ^0.1.0
-
   video_player: ^2.5.1
   intl: ^0.18.0
+  wakelock: ^0.6.2
 
 dev_dependencies:
   flutter_test:
