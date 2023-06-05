@@ -35,4 +35,8 @@
     </application>
     <uses-feature android:name="android.hardware.touchscreen" android:required="false" />
     <uses-permission android:name="android.permission.INTERNET"/>
+    <supports-screens android:smallScreens="false"
+                      android:normalScreens="false"
+                      android:largeScreens="true"
+                      android:xlargeScreens="true"/>
 </manifest>
