@@ -3,6 +3,7 @@ import 'package:adonai_tv/screens/live_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:adonai_tv/styles.dart' as styles;
 
 import '../blocs/bloc.dart';
 
@@ -53,14 +54,10 @@ class _LiveButtonState extends State<LiveButton> {
                     builder: (context) =>
                         LiveScreen(appConfig: widget.appConfig)));
           },
-          style: TextButton.styleFrom(
-              backgroundColor: _focused ? Colors.white : Colors.red,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12)),
-              fixedSize: const Size(100, 20)),
+          style: styles.styleButton(_focused),
           child: Text(
             "LIVE",
-            style: TextStyle(color: _focused ? Colors.red : Colors.white),
+            style: styles.styleButtonText(_focused),
           ),
         ),
       ),

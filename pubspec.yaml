@@ -42,6 +42,8 @@ dependencies:
   video_player: ^2.5.1
   intl: ^0.18.0
   wakelock: ^0.6.2
+  package_info_plus: ^0.0.1
+  url_launcher: ^6.0.12
 
 dev_dependencies:
   flutter_test:

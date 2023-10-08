@@ -3,9 +3,10 @@ import 'package:adonai_tv/blocs/event.dart';
 import 'package:adonai_tv/blocs/state.dart';
 import 'package:adonai_tv/models/app_config.dart';
 import 'package:adonai_tv/widgets/main_content.dart';
+import 'package:adonai_tv/widgets/update_error.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:adonai_tv/constants.dart' as constant;
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -18,26 +19,35 @@ class HomeScreen extends StatelessWidget {
         return const Center(child: CircularProgressIndicator());
       } else if (state is AppConfigLoaded) {
         appConfig = state.appConfig;
+
+        if (constant.appVersion < appConfig.minVersion) {
+          // Current app version is lower, need to update the app.
+          return const RenderUpdateError();
+        }
+
         BlocProvider.of<AppBloc>(context).add(FetchVimeoEvent(url: ""));
-        return const Text("Display list");
+        return Container();
       } else if (state is VimeoVideoLoaded) {
         return RenderMainContent(
             videos: state.videoData.data, appConfig: appConfig);
       } else if (state is FailedToLoad) {
         return Center(
-          child: Container(
-              child: Stack(
-            children: [
-              Text(state.errorMessage),
-              Image.asset(
-                'assets/error.png',
-                height: MediaQuery.of(context).size.height * .90,
-              )
-            ],
-          )),
-        );
+            child: _renderError(
+                'assets/error.png', MediaQuery.of(context).size.height * .90));
       }
       return Container();
     }));
+  }
+
+  Widget _renderError(String errorImage, double height) {
+    return Container(
+        child: Stack(
+      children: [
+        Image.asset(
+          errorImage,
+          height: height,
+        )
+      ],
+    ));
   }
 }
